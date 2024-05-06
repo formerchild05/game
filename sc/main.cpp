@@ -140,10 +140,10 @@ public:
     // cap nhat huong di chuyen
     void update()
     {
-        headTexture = loadTexture("headup.jpg", renderer);
+        headTexture = loadTexture("head.png", renderer);
         if (headTexture == NULL)
             cout << "Failed to load up!!!!!!!!!!!!!!!!!!!!!";
-        bodyTexture = loadTexture("body.jpg", renderer);
+        bodyTexture = loadTexture("body.png", renderer);
         for (int i = 0; i < (int)BODY.size(); i++)
         {
             if (i == 0)
@@ -156,33 +156,39 @@ public:
         int prevY = BODY[0].Yb;
         int nextX;
         int nextY;
-
+        int k;
         // cap nhat laij huong cua dau de anh huong theo
         switch (direct)
         {
         case UP:
             BODY[0].Yb -= 20;
+            k = BODY[0].Yb;
             break;
         case DOWN:
             BODY[0].Yb += 20;
+            k = BODY[0].Yb;
             break;
         case LEFT:
             BODY[0].Xb -= 20;
+            k = BODY[0].Xb;
             break;
         case RIGHT:
             BODY[0].Xb += 20;
+            k = BODY[0].Xb;
             break;
         }
 
-        // Move the rest of the body segments to follow the head
+
         for (int i = 1; i < BODY.size(); i++)
         {
+
             nextX = BODY[i].Xb;
             nextY = BODY[i].Yb;
             BODY[i].Xb = prevX;
             BODY[i].Yb = prevY;
             prevX = nextX;
             prevY = nextY;
+
         }
     }
 
@@ -256,7 +262,7 @@ int main(int argc, char* args[])
 
 
     SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
-    SDL_Texture* appleTexture = loadTexture("applee.png", renderer);//chen anh qua tao
+    SDL_Texture* appleTexture = loadTexture("food.png", renderer);//chen anh qua tao
 
     snake SNAKE;
     food FOOD(appleTexture);
