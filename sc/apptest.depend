@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1714755450 source:e:\code\c++\codeblocks\bin\apptest\main.cpp
+	<iostream>
+	<vector>
+	<SDL.h>
+	<ctime>
+	<fstream>
+	"create_map.h"
+
+1714711495 e:\code\c++\codeblocks\bin\apptest\create_map.h
+	<iostream>
+	<fstream>
+	<SDL.h>
+
+1714931432 source:c:\users\elect\onedrive\desktop\game\game\sc\main.cpp
+	<iostream>
+	<vector>
+	<SDL.h>
+	<ctime>
+	<fstream>
+	"create_map.h"
+	<SDL_image.h>
+
+1714931078 c:\users\elect\onedrive\desktop\game\game\sc\create_map.h
+	<iostream>
+	<fstream>
+	<SDL.h>
+
