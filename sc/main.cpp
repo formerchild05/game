@@ -114,6 +114,11 @@ public:
         speed = SPEED;
         BODY = initbody;
         //chen anh dau va than
+
+    }
+    // cap nhat huong di  chuyen
+    void update()
+    {
         headTextureUp = loadTexture("headup.jpg", renderer);
         if(headTextureUp == NULL)
             cout <<"Failed to load up!!!!!!!!!!!!!!!!!!!!!";
@@ -134,10 +139,6 @@ public:
             else
                 BODY[i].texture = bodyTexture;
         }
-    }
-    // cap nhat huong di  chuyen
-    void update()
-    {
         // Save the current position of the head
         int prevX = BODY[0].Xb;
         int prevY = BODY[0].Yb;
@@ -252,6 +253,7 @@ int main(int argc, char* args[])
     SDL_Texture* appleTexture = loadTexture("applee.png", renderer);//chen anh qua tao
 
     snake SNAKE;
+    food FOOD(appleTexture);
     SDL_Event e;
     bool quit= false;
 
@@ -261,7 +263,14 @@ int main(int argc, char* args[])
         if (backgroundTexture != nullptr)
             // load anh backgr
             SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-        SNAKE.FOOD.draw_food(renderer);
+        SDL_Rect appleRect;
+        appleRect.x = SNAKE.FOOD.fX;
+        appleRect.y = SNAKE.FOOD.fY;
+        appleRect.w = 20;
+        appleRect.h = 20;
+        if(appleTexture != NULL)
+            SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
+        //SNAKE.FOOD.draw_food(renderer);
         Uint32 currentTime = SDL_GetTicks();
         if (currentTime - lastEventTime >= 1)
         {
