@@ -28,27 +28,31 @@ SDL_Texture* loadTexture(string path, SDL_Renderer* renderer)
 }
 
 struct food
-{
+{ //chen anh qua tao
     int fX;
     int fY;
     int fW;
     int fH;
-    food()
+    SDL_Texture* texture;
+    food(SDL_Texture* tex = NULL)
     {
         fW=20;
         fH=20;
         fX = (rand() % 32)*20;
         fY = (rand() % 24)*20;
+        tex = texture;
     }
-    void draw_food()
+    void draw_food(SDL_Renderer* renderer)
     {
         SDL_Rect F;
         F.w = fW;
         F.h = fH;
         F.x = fX;
         F.y = fY;
-
-
+        if(texture != NULL)
+        {
+            SDL_RenderCopy(renderer, texture, NULL, &F);
+        }
         SDL_SetRenderDrawColor(renderer,160,160,160,255);
         SDL_RenderFillRect(renderer,&F);
     }
@@ -126,7 +130,7 @@ public:
         for(int i=0 ; i<(int)BODY.size() ; i++)
         {
             if(i == 0)
-                BODY[i].texture = headTextureRight;
+                BODY[i].texture = headTextureUp;
             else
                 BODY[i].texture = bodyTexture;
         }
@@ -159,6 +163,7 @@ public:
             BODY[0].texture = headTextureRight;
             break;
         }
+
 
 
         // Move the rest of the body segments to follow the head
@@ -244,6 +249,7 @@ int main(int argc, char* args[])
 
 
     SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
+    SDL_Texture* appleTexture = loadTexture("applee.png", renderer);//chen anh qua tao
 
     snake SNAKE;
     SDL_Event e;
@@ -255,10 +261,9 @@ int main(int argc, char* args[])
         if (backgroundTexture != nullptr)
             // load anh backgr
             SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-
-        SNAKE.FOOD.draw_food();
+        SNAKE.FOOD.draw_food(renderer);
         Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - lastEventTime >= 0.000001)
+        if (currentTime - lastEventTime >= 1)
         {
             while (SDL_PollEvent(&e) != 0)
             {
