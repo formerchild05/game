@@ -245,6 +245,7 @@ public:
     }
 };
 
+
 Uint32 lastEventTime = 0;
 
 int main(int argc, char* args[])
@@ -324,8 +325,10 @@ int main(int argc, char* args[])
             break;
         }
         // Render each body segment with its respective rotation
-        for (int i = 0; i < SNAKE.BODY.size(); i++)
+        for (int i = 1; i < SNAKE.BODY.size(); i++)
             SNAKE.BODY[i].draw_body(renderer, i == 0 ? 0 : SNAKE.BODY[i - 1].Xb, i == 0 ? 0 : SNAKE.BODY[i - 1].Yb, rotation, i == 0);
+        SNAKE.BODY[0].draw_body(renderer, 0, 0, rotation, true);
+
         SDL_RenderPresent(renderer);
 
         SDL_Delay(150);
