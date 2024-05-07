@@ -26,3 +26,11 @@
 	<fstream>
 	<SDL.h>
 
+1715068047 source:c:\users\elect\onedrive\desktop\game\sc\main.cpp
+	<iostream>
+	<vector>
+	<SDL.h>
+	<ctime>
+	<fstream>
+	<SDL_image.h>
+

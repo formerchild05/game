@@ -4,7 +4,6 @@
 #include <ctime>
 #include <fstream>
 #include <SDL_image.h>
-
 using namespace std;
 
 SDL_Window* window = nullptr;
@@ -228,7 +227,6 @@ public:
         if (BODY[0].Xb < 0 || BODY[0].Xb >= 640 || BODY[0].Yb < 0 || BODY[0].Yb >= 480)
             Q = true;
     }
-
     void EATCHECK(int prex, int prey)
     {
         cout << "food x " << FOOD.fX << " y " << FOOD.fY << endl;
@@ -239,73 +237,18 @@ public:
             cout << "ANNNNN" << endl;
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
-            SDL_Delay(200);
             FOOD.GEN_F();
         }
+
     }
 };
 
-
-Uint32 lastEventTime = 0;
-
-int main(int argc, char* args[])
+void proces_snake_p1(snake& SNAKE, bool &quit)
 {
-    // create window
-    SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
-
-    // init map ( no longer need )
-//    char MAP[24][32];
-//    input_map(MAP);
-    // main loop
-
-    srand(time(NULL));
-
-
-    SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
-    SDL_Texture* appleTexture = loadTexture("food.png", renderer);//chen anh qua tao
-
-    snake SNAKE;
-    food FOOD(appleTexture);
-    SDL_Event e;
-    bool quit = false;
-
-    while (!quit)
-    {
-        SDL_RenderClear(renderer); // Clear the renderer
-        if (backgroundTexture != nullptr)
-            // load anh backgr
-            SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-        SDL_Rect appleRect;
-        appleRect.x = SNAKE.FOOD.fX;
-        appleRect.y = SNAKE.FOOD.fY;
-        appleRect.w = 20;
-        appleRect.h = 20;
-        if (appleTexture != NULL)
-            SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
-        //SNAKE.FOOD.draw_food(renderer);
-        Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - lastEventTime >= 1)
-        {
-            while (SDL_PollEvent(&e) != 0)
-            {
-
-                if (e.type == SDL_QUIT)
-                    quit = true;
-                // quit = escape
-                const Uint8* keys = SDL_GetKeyboardState(nullptr);
-                if (keys[SDL_SCANCODE_ESCAPE])
-                    quit = true;
-                SNAKE.input_dir(e);
-            }
-            lastEventTime = currentTime;
-        }
-
-
         SNAKE.BORDERCHECK(quit);    //border
         SNAKE.update();  //movement
 
-        //previous coordinate
+            //previous coordinate
         int prex = SNAKE.BODY[SNAKE.BODY.size() - 1].Xb;
         int prey = SNAKE.BODY[SNAKE.BODY.size() - 1].Yb;
         SNAKE.EATCHECK(prex, prey);
@@ -328,9 +271,214 @@ int main(int argc, char* args[])
         for (int i = 1; i < SNAKE.BODY.size(); i++)
             SNAKE.BODY[i].draw_body(renderer, i == 0 ? 0 : SNAKE.BODY[i - 1].Xb, i == 0 ? 0 : SNAKE.BODY[i - 1].Yb, rotation, i == 0);
         SNAKE.BODY[0].draw_body(renderer, 0, 0, rotation, true);
+}
+void process_apple_p1(snake& SNAKE, SDL_Texture* appleTexture)
+{
+    SDL_Rect appleRect;
+        appleRect.x = SNAKE.FOOD.fX;
+        appleRect.y = SNAKE.FOOD.fY;
+        appleRect.w = 20;
+        appleRect.h = 20;
+        if (appleTexture != NULL)
+            SDL_RenderCopy(renderer, appleTexture, NULL, &appleRect);
+}
+
+class snake2
+{
+public:
+    int speed;
+    vector <body> BODY;
+    enum Direction { UP, DOWN, LEFT, RIGHT };
+    Direction direct;
+   // food FOOD;
+    SDL_Texture* headTexture;
+    SDL_Texture* bodyTexture;
+    snake2(int SPEED = 1, vector <body> initbody = {body(10 * 20,10 * 20,20,20)})
+    {
+        speed = SPEED;
+        BODY = initbody;
+    }
+     void update()
+    {
+
+        headTexture = loadTexture("head_p2.jpg", renderer);
+        if (headTexture == NULL)
+            cout << "Failed to load up!!!!!!!!!!!!!!!!!!!!!";
+        else cout<<"load head dc"<<endl;
+        bodyTexture = loadTexture("body_p2.jpg", renderer);
+        if(bodyTexture == NULL)
+            cout<<"load body failed"<<endl;
+        else cout<<"load body!"<<endl;
+        for (int i = 0; i < (int)BODY.size(); i++)
+        {
+            if (i == 0)
+                BODY[i].texture = headTexture;
+            else
+                BODY[i].texture = bodyTexture;
+        }
+        // Save the current position of the head
+
+        int prevX = BODY[0].Xb;
+        int prevY = BODY[0].Yb;
+        int nextX;
+        int nextY;
+
+        // cap nhat laij huong cua dau de anh huong theo
+        switch (direct)
+        {
+        case UP:
+            BODY[0].Yb -= 20;
+            break;
+        case DOWN:
+            BODY[0].Yb += 20;
+            break;
+        case LEFT:
+            BODY[0].Xb -= 20;
+            break;
+        case RIGHT:
+            BODY[0].Xb += 20;
+            break;
+        }
+
+        // Move the rest of the body segments to follow the head
+        for (int i = 1; i < BODY.size(); i++)
+        {
+            nextX = BODY[i].Xb;
+            nextY = BODY[i].Yb;
+            BODY[i].Xb = prevX;
+            BODY[i].Yb = prevY;
+            prevX = nextX;
+            prevY = nextY;
+        }
+    }
+
+    void input_dir(SDL_Event& events)
+    {
+        if (events.type == SDL_KEYDOWN)
+        {
+            switch (events.key.keysym.sym)
+            {
+            case SDLK_a:
+                if (direct != RIGHT)
+                    direct = LEFT;
+                cout << "Direction left" << endl;
+                break;
+            case SDLK_d:
+                if (direct != LEFT)
+                    direct = RIGHT;
+                cout << "Direction Right" << endl;
+                break;
+            case SDLK_w:
+                if (direct != DOWN)
+                    direct = UP;
+                cout << "Direction up" << endl;
+                break;
+            case SDLK_s:
+                if (direct != UP)
+                    direct = DOWN;
+                cout << "Direction down" << endl;
+                break;
+            }
+        }
+    }
+    void BORDERCHECK(bool& Q)
+    {
+        if (BODY[0].Xb < 0 || BODY[0].Xb >= 640 || BODY[0].Yb < 0 || BODY[0].Yb >= 480)
+            Q = true;
+    }
+
+    void EATCHECK(int prex, int prey, snake& SNAKE1)
+    {
+        cout << "snake 2 x " << BODY[0].Xb << " y " << BODY[0].Yb << endl;
+        cout << BODY.size() << endl;
+//        if (BODY[0].Xb == FOOD.fX && BODY[0].Yb == FOOD.fY)
+//        {
+//            cout << "ANNNNN" << endl;
+//            body newBody(prex, prey, 20, 20, bodyTexture);
+//            BODY.push_back(newBody);//chen them anh than vao body
+//            FOOD.GEN_F();
+//        }
+        if (BODY[0].Xb == SNAKE1.FOOD.fX && BODY[0].Yb == SNAKE1.FOOD.fY)
+        {
+            cout << "ANNNNN" << endl;
+            body newBody(prex, prey, 20, 20, bodyTexture);
+            BODY.push_back(newBody);//chen them anh than vao body
+            SNAKE1.FOOD.GEN_F();
+        }
+    }
+};
+
+
+int main(int argc, char* args[])
+{
+    // create window
+    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
+
+    srand(time(NULL));
+    SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
+    SDL_Texture* appleTexture = loadTexture("food.png", renderer);
+    //chen anh qua tao
+
+    snake SNAKE;
+    snake2 SNAKE2;
+    food FOOD(appleTexture);
+    SDL_Event e;
+    bool quit = false;
+
+    while (!quit)
+    {
+        SDL_RenderClear(renderer); // Clear the renderer
+        if (backgroundTexture != nullptr)
+            SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);           // load anh backgr
+
+        process_apple_p1(SNAKE,appleTexture);
+
+        while (SDL_PollEvent(&e) != 0)
+            {
+                if (e.type == SDL_QUIT)
+                    quit = true;
+                // quit = escape
+                const Uint8* keys = SDL_GetKeyboardState(nullptr);
+                if (keys[SDL_SCANCODE_ESCAPE])
+                    quit = true;
+                SNAKE.input_dir(e);
+                SNAKE2.input_dir(e);
+            }
+
+        proces_snake_p1(SNAKE, quit);
+
+
+// xu li nguoi choi 2
+        SNAKE2.BORDERCHECK(quit);    //border
+        SNAKE2.update();  //movement
+        //previous coordinate
+        int prex2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Xb;
+        int prey2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Yb;
+        SNAKE2.EATCHECK(prex2, prey2, SNAKE);
+        int rotation2 = 0;
+        switch (SNAKE2.direct)
+        {
+        case snake2::UP:
+            rotation2 = -90;
+            break;
+        case snake2::DOWN:
+            rotation2 = 90;
+            break;
+        case snake2::LEFT:
+            rotation2 = 180;
+            break;
+        case snake2::RIGHT:
+            rotation2 = 0;
+            break;
+        }
+        // Render each body segment with its respective rotation
+        for (int i = 0; i < SNAKE2.BODY.size(); i++)
+            SNAKE2.BODY[i].draw_body(renderer, i == 0 ? 0 : SNAKE2.BODY[i - 1].Xb, i == 0 ? 0 : SNAKE2.BODY[i - 1].Yb, rotation2, i == 0);
+// het xu li nguoi choi 2
+
 
         SDL_RenderPresent(renderer);
-
         SDL_Delay(150);
     }
     SDL_DestroyTexture(backgroundTexture);
