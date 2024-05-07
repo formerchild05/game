@@ -51,11 +51,11 @@ bool inside(int &x,int &y,SDL_Rect rect)
 
 void HITENEMY(bool& Q, snake& SNAKE, snake2& SNAKE2)
     {
-        body head = SNAKE2.BODY[0];
-        body head2 = SNAKE.BODY[0];
+        body head2 = SNAKE2.BODY[0];
+        body head = SNAKE.BODY[0];
         for(int i=1 ; i<SNAKE.BODY.size() ; i++)
         {
-            if(head.Xb == SNAKE.BODY[i].Xb && head.Yb == SNAKE.BODY[i].Yb)
+            if(head2.Xb == SNAKE.BODY[i].Xb && head2.Yb == SNAKE.BODY[i].Yb)
             {
                 Q = true;
                 break;
@@ -63,11 +63,20 @@ void HITENEMY(bool& Q, snake& SNAKE, snake2& SNAKE2)
         }
         for(int i=1 ; i<SNAKE2.BODY.size() ; i++)
         {
-            if(head2.Xb == SNAKE2.BODY[i].Xb && head2.Yb == SNAKE2.BODY[i].Yb)
+            if(head.Xb == SNAKE2.BODY[i].Xb && head.Yb == SNAKE2.BODY[i].Yb)
             {
                 Q = true;
                 break;
             }
+        }
+        if(head.Xb == head2.Xb && head.Yb == head2.Yb)
+        {
+            if(SNAKE.BODY.size() > SNAKE2.BODY.size())
+            {
+                Q = true;
+            }
+            else
+                Q = true;
         }
 
     }

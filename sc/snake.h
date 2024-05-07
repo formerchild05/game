@@ -176,8 +176,6 @@ public:
         {
             if (i == 0)
                 BODY[i].texture = headTexture;
-            else if((BODY[i+1].Xb == BODY[i].Xb) && (BODY[i].Xb != BODY[i-1].Xb) && (BODY[i-1].Yb == BODY[i].Yb) && (BODY[i].Yb != BODY[i+1].Yb))
-                    BODY[i].texture = cornerTexture;
             else
                 BODY[i].texture = bodyTexture;
         }
