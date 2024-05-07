@@ -33,7 +33,9 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="create_map.h" />
+		<Unit filename="function.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="snake.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
