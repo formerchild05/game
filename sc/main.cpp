@@ -79,12 +79,12 @@ int main(int argc, char* args[])
 
                             process_snake_p1(SNAKE, quit);
 
-                            //process_snake_p2(SNAKE2,quit,SNAKE);
+                            process_snake_p2(SNAKE2,quit,SNAKE);
 
                             HITENEMY(quit, SNAKE, SNAKE2);
 
                             SDL_RenderPresent(renderer);
-                            SDL_Delay(250);
+                            SDL_Delay(100);
                         }
                         SDL_DestroyTexture(backgroundTexture);
 
