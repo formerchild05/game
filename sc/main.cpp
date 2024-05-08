@@ -17,19 +17,23 @@ int main(int argc, char* args[])
     SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
 
     srand(time(NULL));
-    SDL_Texture* menuTexture = loadTexture("menu.jpg",renderer);
-    SDL_Texture* playTexture = loadTexture("play.png",renderer);
-    SDL_RenderCopy (renderer, menuTexture, NULL, NULL);
-    SDL_Rect play ;
-    SDL_QueryTexture(playTexture, NULL, NULL, &play.w, &play.h);
-    play.x = 200;
-    play.y = 200;
-    play.h /= 3;
-    play.w /= 3;
-    SDL_RenderCopy(renderer, playTexture,NULL, &play);
-    SDL_RenderPresent(renderer);
-    SDL_Event e;
-    bool quit = false;
+        SDL_Texture* menuTexture = loadTexture("menu.jpg",renderer);
+        SDL_Texture* playTexture = loadTexture("play.png",renderer);
+        SDL_Texture* p1winTexture = loadTexture("P1.png",renderer);
+        SDL_Texture* p2winTexture = loadTexture("P2.png",renderer);
+        SDL_RenderCopy (renderer, menuTexture, NULL, NULL);
+        SDL_Rect play ;
+        SDL_QueryTexture(playTexture, NULL, NULL, &play.w, &play.h);
+        play.x = 200;
+        play.y = 200;
+        play.h /= 8;
+        play.w /= 8;
+        SDL_RenderCopy(renderer, playTexture,NULL, &play);
+        SDL_RenderPresent(renderer);
+        SDL_Event e;
+        bool quit = false;
+    bool win =true;
+
     while(!quit)
     {
         while( SDL_PollEvent(&e) != 0)
@@ -53,7 +57,8 @@ int main(int argc, char* args[])
 
                         snake SNAKE;
                         snake2 SNAKE2;
-                        bool quit = false;
+//                        bool quit = false;
+
 
                         while (!quit)
                         {
@@ -81,21 +86,38 @@ int main(int argc, char* args[])
 
                             process_snake_p2(SNAKE2,quit,SNAKE);
 
-                            HITENEMY(quit, SNAKE, SNAKE2);
+
+                            win = HITENEMY(quit, SNAKE, SNAKE2);
+
 
                             SDL_RenderPresent(renderer);
                             SDL_Delay(100);
+
                         }
-                        SDL_DestroyTexture(backgroundTexture);
+                            SDL_DestroyTexture(backgroundTexture);
 
                     }
                 }
             }
         }
     }
-SDL_DestroyRenderer(renderer);
-                        SDL_DestroyWindow(window);
-                        SDL_Quit();
+    if(win)
+    {
+        SDL_RenderCopy(renderer, p1winTexture, NULL, NULL);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(3000);
+        cout << "PLAYER 1 WIN";
+    }
+    else
+    {
+        SDL_RenderCopy(renderer, p2winTexture, NULL, NULL);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(3000);
+        cout << "PLAYER 2 WIN";
+    }
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
 
     return 0;
