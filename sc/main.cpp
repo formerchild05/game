@@ -101,23 +101,47 @@ int main(int argc, char* args[])
             }
         }
     }
-    if(win)
-    {
-        SDL_RenderCopy(renderer, p1winTexture, NULL, NULL);
+    quit = false;
+    while (!quit) {
+    // Handle events on queue
+        while (SDL_PollEvent(&e) != 0) {
+            // User requests quit
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+
+            // User presses spacebar to quit manually
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE) {
+                quit = true;
+            }
+        }
+
+        if (win) {
+            SDL_RenderCopy(renderer, p1winTexture, NULL, NULL);
+            SDL_RenderPresent(renderer);
+            //SDL_Delay(3000);
+            //cout << "PLAYER 1 WIN";
+        }
+        else {
+            SDL_RenderCopy(renderer, p2winTexture, NULL, NULL);
+            SDL_RenderPresent(renderer);
+            //SDL_Delay(3000);
+            //cout << "PLAYER 2 WIN";
+        }
+        // Update screen
         SDL_RenderPresent(renderer);
-        SDL_Delay(3000);
-        cout << "PLAYER 1 WIN";
     }
-    else
-    {
-        SDL_RenderCopy(renderer, p2winTexture, NULL, NULL);
-        SDL_RenderPresent(renderer);
-        SDL_Delay(3000);
-        cout << "PLAYER 2 WIN";
+    if (win) {
+        SDL_DestroyTexture(p1winTexture);
+    }
+    else {
+        SDL_DestroyTexture(p2winTexture);
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+
+
 
 
     return 0;
