@@ -42,10 +42,16 @@ bool inside(int &x,int &y,SDL_Rect rect)
 
 
 
-bool HITENEMY(bool& Q, snake& SNAKE, snake2& SNAKE2)
+bool WINLOSE(bool& Q, snake& SNAKE, snake2& SNAKE2)
     {
         body head = SNAKE.BODY[0];
         body head2 = SNAKE2.BODY[0];
+        SNAKE.BORDERCHECK1(Q);
+        if(Q == true)            //cap nhat laij ham thang thua khi co 1 con dam vao tuong
+            return false;
+        SNAKE2.BORDERCHECK2(Q);
+        if(Q == true)
+            return true;
         if(head.Xb == head2.Xb && head.Yb == head2.Yb)
         {
             if((int)SNAKE.BODY.size() > (int)SNAKE2.BODY.size())
@@ -81,7 +87,7 @@ bool HITENEMY(bool& Q, snake& SNAKE, snake2& SNAKE2)
 
 void process_snake_p1(snake& SNAKE, bool &quit)
 {
-        SNAKE.BORDERCHECK(quit);    //border
+        SNAKE.BORDERCHECK1(quit);    //border
         SNAKE.update();  //movement
 
             //previous coordinate
@@ -111,7 +117,7 @@ void process_snake_p1(snake& SNAKE, bool &quit)
 
 void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den snake de dung cho ham EATCHECK
 {
-        SNAKE2.BORDERCHECK(quit);
+        SNAKE2.BORDERCHECK2(quit);
          //border
         SNAKE2.update();  //movement
         //previous coordinate

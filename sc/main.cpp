@@ -17,14 +17,49 @@ int main(int argc, char* args[])
     SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
 
     srand(time(NULL));
-        SDL_Texture* menuTexture = loadTexture("menu.jpg",renderer);
+        SDL_Texture* menuTexture = loadTexture("menustart1.jpg",renderer);
         SDL_Texture* playTexture = loadTexture("play.png",renderer);
         SDL_Texture* p1winTexture = loadTexture("P1.png",renderer);
         SDL_Texture* p2winTexture = loadTexture("P2.png",renderer);
+        SDL_Texture* head1menu = loadTexture("head_p1menu.png",renderer);
+        SDL_Texture* head2menu = loadTexture("head_p2menu.png",renderer);
+        SDL_Texture* key1 = loadTexture("key1.png",renderer);
+        SDL_Texture* key2 = loadTexture("key2.png",renderer);
+        SDL_Texture* loaTexture = loadTexture("load.png",renderer);
         SDL_RenderCopy (renderer, menuTexture, NULL, NULL);
+        SDL_Rect menukey1;
+        SDL_QueryTexture(key1, NULL, NULL, &menukey1.w, &menukey1.h);
+        menukey1.x = 30;
+        menukey1.y = 300;
+        menukey1.h /= 2;
+        menukey1.w /= 2;
+        SDL_Rect menukey2;
+        SDL_QueryTexture(key2, NULL, NULL, &menukey2.w, &menukey2.h);
+        menukey2.x = 500;
+        menukey2.y = 300;
+        menukey2.h /= 2;
+        menukey2.w /= 2;
+        SDL_Rect headm1;
+        SDL_QueryTexture(head1menu, NULL, NULL, &headm1.w, &headm1.h);
+        headm1.x = 30;
+        headm1.y = 150;
+        headm1.h /= 3.5;
+        headm1.w /= 3.5;
+        SDL_Rect headm2;
+        SDL_QueryTexture(head2menu, NULL, NULL, &headm2.w, &headm2.h);
+        headm2.x = 390;
+        headm2.y = 150;
+        headm2.h /= 3.5;
+        headm2.w /= 3.5;
+        SDL_Rect loa;
+        SDL_QueryTexture(loaTexture, NULL, NULL, &loa.w, &loa.h);
+        loa.x = 250;
+        loa.y = 310;
+        loa.h /= 1;
+        loa.w /= 1;
         SDL_Rect play ;
         SDL_QueryTexture(playTexture, NULL, NULL, &play.w, &play.h);
-        play.x = 200;
+        play.x = 250;
         play.y = 200;
         play.h /= 8;
         play.w /= 8;
@@ -32,7 +67,8 @@ int main(int argc, char* args[])
         SDL_RenderPresent(renderer);
         SDL_Event e;
         bool quit = false;
-    bool win =true;
+        bool win =true;
+        bool playAgain = false;
 
     while(!quit)
     {
@@ -51,6 +87,13 @@ int main(int argc, char* args[])
 
                     if(inside(x,y, play))
                     {
+                        SDL_RenderCopy(renderer, head2menu, NULL, &headm2);
+                        SDL_RenderCopy(renderer, head1menu, NULL, &headm1);
+                        SDL_RenderCopy(renderer, key1, NULL, &menukey1);
+                        SDL_RenderCopy(renderer, key2, NULL, &menukey2);
+                        SDL_RenderCopy(renderer, loaTexture, NULL, &loa);
+                        SDL_RenderPresent(renderer);
+                        SDL_Delay(2000);
                         SDL_Texture* backgroundTexture = loadTexture("backgr.jpg", renderer);
                         SDL_Texture* appleTexture = loadTexture("food.png", renderer);
                         //chen anh qua tao
@@ -87,7 +130,7 @@ int main(int argc, char* args[])
                             process_snake_p2(SNAKE2,quit,SNAKE);
 
 
-                            win = HITENEMY(quit, SNAKE, SNAKE2);
+                            win = WINLOSE(quit, SNAKE, SNAKE2);
 
 
                             SDL_RenderPresent(renderer);

@@ -223,10 +223,13 @@ public:
         }
     }
 
-    void BORDERCHECK(bool& Q)
+    void BORDERCHECK1(bool& Q)
     {
         if (BODY[0].Xb < 0 || BODY[0].Xb >= 640 || BODY[0].Yb < 0 || BODY[0].Yb >= 480)
+        {
+
             Q = true;
+        }
     }
 
     void EATCHECK(int prex, int prey)
@@ -357,7 +360,7 @@ public:
             }
         }
     }
-    void BORDERCHECK(bool& Q)
+    void BORDERCHECK2(bool& Q)
     {
         if (BODY[0].Xb < 0 || BODY[0].Xb >= 640 || BODY[0].Yb < 0 || BODY[0].Yb >= 480)
             {
