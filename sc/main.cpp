@@ -26,7 +26,6 @@ int main(int argc, char* args[])
     SDL_Texture* key1 = loadTexture("key1.png", renderer);
     SDL_Texture* key2 = loadTexture("key2.png", renderer);
     SDL_Texture* loaTexture = loadTexture("load.png", renderer);
-    SDL_Texture* again = loadTexture("again.png", renderer);
 
     SDL_RenderCopy(renderer, menuTexture, NULL, NULL);
     SDL_Rect menukey1;
@@ -65,12 +64,7 @@ int main(int argc, char* args[])
     play.y = 200;
     play.h /= 8;
     play.w /= 8;
-    SDL_Rect Again;
-    SDL_QueryTexture(again, NULL, NULL, &Again.w, &Again.h);
-    Again.x = 250;
-    Again.y = 200;
-    Again.h /= 8;
-    Again.w /= 8;
+    
     SDL_RenderCopy(renderer, playTexture, NULL, &play);
     SDL_RenderPresent(renderer);
     SDL_Event e;
