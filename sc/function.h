@@ -124,6 +124,7 @@ void process_snake_p2(snake2& SNAKE2, bool &quit, snake& SNAKE)//tham chieu den 
         int prex2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Xb;
         int prey2 = SNAKE2.BODY[SNAKE2.BODY.size() - 1].Yb;
         SNAKE2.EATCHECK(prex2, prey2, SNAKE);
+
         int rotation2 = 0;
         switch (SNAKE2.direct)
         {

@@ -34,7 +34,7 @@
 	<fstream>
 	<SDL_image.h>
 
-1715403376 source:c:\users\admin\onedrive\máy tính\game\sc\main.cpp
+1715421693 source:c:\users\admin\onedrive\máy tính\game\sc\main.cpp
 	"snake.h"
 	<iostream>
 	<vector>
@@ -43,16 +43,18 @@
 	<fstream>
 	<SDL_image.h>
 	"function.h"
+	<SDL_mixer.h>
 
-1715402896 c:\users\admin\onedrive\máy tính\game\sc\snake.h
+1715421110 c:\users\admin\onedrive\máy tính\game\sc\snake.h
 	<iostream>
 	<vector>
 	<SDL.h>
 	<ctime>
 	<fstream>
 	<SDL_image.h>
+	<SDL_mixer.h>
 
-1715402896 c:\users\admin\onedrive\máy tính\game\sc\function.h
+1715421110 c:\users\admin\onedrive\máy tính\game\sc\function.h
 	<iostream>
 	<vector>
 	<SDL.h>

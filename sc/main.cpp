@@ -6,6 +6,7 @@
 #include <fstream>
 #include <SDL_image.h>
 #include"function.h"
+#include<SDL_mixer.h>
 using namespace std;
 
 
@@ -14,7 +15,13 @@ int main(int argc, char* args[])
 {
     // create window
     SDL_Init(SDL_INIT_EVERYTHING);
+
     SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+                {
+                    cout<<"SDL_mixer could not initialize! SDL_mixer Error: "<<Mix_GetError();
+
+                }
 
     srand(time(NULL));
         SDL_Texture* menuTexture = loadTexture("menu.jpg",renderer);
@@ -28,6 +35,8 @@ int main(int argc, char* args[])
         SDL_Texture* loaTexture = loadTexture("load1.png",renderer);
         SDL_Texture* loa2Texture = loadTexture("load2.png",renderer);
         SDL_Texture* loa3Texture = loadTexture("load3.png",renderer);
+        Mix_Music* nhacnen = Mix_LoadMUS( "nhacnen.mp3" );
+        Mix_Chunk* wingame = Mix_LoadWAV( "nhaccachmang.wav" );
         SDL_RenderCopy (renderer, menuTexture, NULL, NULL);
         SDL_Rect menukey1;
         SDL_QueryTexture(key1, NULL, NULL, &menukey1.w, &menukey1.h);
@@ -73,6 +82,7 @@ int main(int argc, char* args[])
         bool win =true;
         bool playAgain = false;
 
+        Mix_PlayMusic( nhacnen, -1 );
     while(!quit)
     {
         while( SDL_PollEvent(&e) != 0)
@@ -82,6 +92,7 @@ int main(int argc, char* args[])
                 quit=true;
             }
             int x,y;
+
             if(e.type==SDL_MOUSEBUTTONDOWN)
             {
                 if(e.button.button==SDL_BUTTON_LEFT)
@@ -184,12 +195,14 @@ int main(int argc, char* args[])
         if (win) {
             SDL_RenderCopy(renderer, p1winTexture, NULL, NULL);
             SDL_RenderPresent(renderer);
+            Mix_PlayChannel(-1,wingame,0);
             //SDL_Delay(3000);
             //cout << "PLAYER 1 WIN";
         }
         else {
             SDL_RenderCopy(renderer, p2winTexture, NULL, NULL);
             SDL_RenderPresent(renderer);
+            Mix_PlayChannel(-1,wingame,0);
             //SDL_Delay(3000);
             //cout << "PLAYER 2 WIN";
         }

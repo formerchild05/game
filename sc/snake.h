@@ -5,6 +5,7 @@
 #include <ctime>
 #include <fstream>
 #include <SDL_image.h>
+#include<SDL_mixer.h>
 using namespace std;
 
 extern SDL_Window* window = nullptr;
@@ -120,6 +121,7 @@ struct body
 };
 class snake
 {
+    Mix_Chunk* anqua = Mix_LoadWAV( "anqua.wav" );
 public:
     int speed;
     vector <body> BODY;
@@ -243,6 +245,7 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             FOOD.GEN_F();
+            Mix_PlayChannel(-1,anqua,0);
         }
 
 
@@ -256,6 +259,7 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             FOOD2.GEN_F();
+            Mix_PlayChannel(-1,anqua,0);
         }
 
     }
@@ -264,6 +268,7 @@ public:
 
 class snake2
 {
+    Mix_Chunk* anqua = Mix_LoadWAV( "anqua.wav" );
 public:
     int speed;
     vector <body> BODY;
@@ -387,6 +392,7 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             SNAKE1.FOOD.GEN_F();
+            Mix_PlayChannel(-1,anqua,0);
         }
 
 
@@ -397,7 +403,9 @@ public:
             body newBody(prex, prey, 20, 20, bodyTexture);
             BODY.push_back(newBody);//chen them anh than vao body
             SNAKE1.FOOD2.GEN_F();
+            Mix_PlayChannel(-1,anqua,0);
         }
+
     }
 };
 
