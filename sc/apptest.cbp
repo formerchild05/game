@@ -35,6 +35,7 @@
 		<Unit filename="create_map.h" />
 		<Unit filename="function.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
 		<Unit filename="snake.h" />
 		<Extensions />
 	</Project>
