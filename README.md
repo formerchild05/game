@@ -11,4 +11,4 @@ player 2 - up, down, left, right (arrow)
 PS: 
 The done game version is here : https://github.com/Entie1005/snake/tree/master
 
-YOU can run on visual studio with the file /src/main.cpp , it is the easest way.
+YOU can run on visual studio with the file ran.sln , it is the easest way.
