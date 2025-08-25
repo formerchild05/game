@@ -1,4 +1,7 @@
-SNAKE GAME 
+SNAKE GAME WITH 2 PLAYERS,
+PLAY LIKE SLITHER ( YOU AND YOUR OPPONENT EAT APPLES, YOU CAN ELEMINATE EACH OTHER BY JUST MAKE THE OTHER HIT YOUR BODY )
 
+(THIS IS THE DEVELOP VERSION)) 
 
-(On Catastrophic buggggggggggggggggggggggg, Imma will fix it when i have time, MBE ?:) )
+PS: 
+The done game version is here : https://github.com/Entie1005/snake/tree/master
