@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build snake",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-Idepen/include",
+        "src/main.cpp",
+        "-Ldepen/lib",
+        "-lSDL2main",
+        "-lSDL2",
+        "-lSDL2_image",
+        "-lSDL2_mixer",
+        "-lSDL2_ttf",
+        "-o",
+        "snake.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "run snake",
+      "type": "shell",
+      "command": "./snake.exe",
+      "group": "test",
+      "dependsOn": "build snake"
+    }
+  ]
+}
